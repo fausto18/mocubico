@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    environment:
+      - PORT=8080
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+    depends_on:
+      - supabase
+
+  supabase:
+    image: supabase/postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: supabase
+    volumes:
+      - supabase_data:/var/lib/postgresql/data
+
+volumes:
+  supabase_data:
