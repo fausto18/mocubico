@@ -14,11 +14,25 @@ const Property = sequelize.define('Property', {
   provincia: DataTypes.STRING,
   municipio: DataTypes.STRING,
   bairro: DataTypes.STRING,
-  preco: DataTypes.DECIMAL,
+  preco: {
+    type: DataTypes.DECIMAL,
+    allowNull: false,
+    get() {
+      const rawValue = this.getDataValue('preco');
+      return new Intl.NumberFormat('pt-AO', {
+        style: 'decimal',
+        minimumFractionDigits: 2
+      }).format(rawValue);
+    }
+  },
   fotos: DataTypes.JSONB,
-  documentos: DataTypes.JSONB
-}, { timestamps: true });
+  documentos: DataTypes.JSONB,
+  fotos_info: DataTypes.JSONB 
+}, {
+  tableName: 'properties',
+  timestamps: true
+});
 
-Property.belongsTo(User, { foreignKey: 'user_id' });
+Property.belongsTo(User, { foreignKey: 'proprietario_id', as: 'proprietario' });
 
 module.exports = Property;

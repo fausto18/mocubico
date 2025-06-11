@@ -8,7 +8,21 @@ const User = sequelize.define('User', {
     defaultValue: DataTypes.UUIDV4
   },
   nome: { type: DataTypes.STRING, allowNull: false },
-  tipo: { type: DataTypes.ENUM('proprietario', 'intermediario', 'inquilino'), allowNull: false },
+  tipo: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isIn: [['proprietario', 'intermediario', 'inquilino']]
+    }
+  },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'inquilino', // ou 'proprietario'
+    validate: {
+      isIn: [['admin', 'proprietario', 'intermediario', 'inquilino']]
+    }
+  },
   bilhete_identidade: DataTypes.STRING,
   telefone: DataTypes.STRING,
   email: DataTypes.STRING,
@@ -16,6 +30,9 @@ const User = sequelize.define('User', {
   municipio: DataTypes.STRING,
   comuna: DataTypes.STRING,
   bairro: DataTypes.STRING
-}, { timestamps: true });
+}, {
+  tableName: 'users',
+  timestamps: true
+});
 
 module.exports = User;

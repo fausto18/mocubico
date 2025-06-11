@@ -25,4 +25,18 @@ router.post('/logout', (req, res) => {
   res.json({ message: 'Logout deve ser feito no frontend limpando o token' });
 });
 
+// Recuperação de senha
+router.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: 'http://localhost:3000/reset-password' // 🛠️ ajuste conforme seu frontend
+  });
+
+  if (error) return res.status(400).json({ error: error.message });
+
+  res.json({ message: 'E-mail de recuperação enviado com sucesso' });
+});
+
+
 module.exports = router;
