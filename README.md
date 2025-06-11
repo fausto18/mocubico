@@ -27,6 +27,15 @@
 
 ---
 
+## 📦 Instalação
+
+```bash
+git clone  https://github.com/fausto18/mocubico.git
+cd upload-api
+npm install
+## Inicialização 
+npm start
+
 ## 📫 Endpoints Disponíveis (Testáveis via Postman)
 
 ### 🔑 Autenticação (`/api/auth`)
